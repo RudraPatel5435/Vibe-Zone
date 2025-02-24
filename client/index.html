@@ -9,6 +9,7 @@
 </head>
 
 <body>
+  <div class="title">Choose a Room</div>
   <ul id="message-container"></ul>
   <form id="form" autocomplete="off">
     <div class="message">
@@ -18,7 +19,13 @@
     </div>
     <div class="room">
       <label for="room-input">Room</label>
-      <input type="text" id="room-input">
+      <select id="room-input">
+        <option>101</option>
+        <option>102</option>
+        <option>103</option>
+        <option>104</option>
+        <option>105</option>
+      </select>
       <button type="button" id="room-button">Join</button>
     </div>
   </form>
