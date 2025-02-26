@@ -18,15 +18,18 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+  socket.on('join-room', room =>{
+    socket.join(room)
+  })
+  socket.on('leave-room', room =>{
+    socket.leave(room)
+  })
   socket.on('send-message', (message, room)=>{
     if(room===""){
       socket.broadcast.emit("receive-message", message)
     } else {
       socket.to(room).emit("receive-message", message)
     }
-  })
-  socket.on('join-room', room =>{
-    socket.join(room)
   })
 })
 
