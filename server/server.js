@@ -18,13 +18,15 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-  console.log("a user connected")
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
+  socket.on('send-message', (message, room)=>{
+    if(room===""){
+      socket.broadcast.emit("receive-message", message)
+    } else {
+      socket.to(room).emit("receive-message", message)
+    }
   })
-  socket.on('chat', (msg)=>{
-    io.emit('chat', msg)
-    console.log("message: " + msg)
+  socket.on('join-room', room =>{
+    socket.join(room)
   })
 })
 
