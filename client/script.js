@@ -39,3 +39,6 @@ socket.on("receive-message", msg => {
   displayMessage(msg)
 })
 
+socket.on('user-count', userCount => {
+  console.log(userCount)
+})

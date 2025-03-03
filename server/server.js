@@ -11,6 +11,8 @@ const io = new Server(server, {
   }
 })
 
+let userCount = 0
+
 app.use(express.static(path.join(__dirname, "../client")))
 
 app.get('/', (req, res) => {
@@ -18,6 +20,11 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+  socket.on('disconnect', ()=>{
+    userCount--
+  })
+  userCount++
+  io.emit("user-count", userCount)
   socket.on('join-room', room =>{
     socket.join(room)
   })
