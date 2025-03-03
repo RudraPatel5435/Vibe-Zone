@@ -69,7 +69,7 @@ main {
   border-radius: 0 0 10px 10px;
 }
 
-main h1 {
+.currRoom {
   font-size: 40px;
   color: lightskyblue;
   display: flex; 

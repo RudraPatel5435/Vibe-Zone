@@ -6,13 +6,16 @@ const form = document.getElementById('form')
 const messageInput = document.getElementById('message-input')
 let currRoom = 'General'
 const allRooms = document.querySelectorAll(".rooms h1")
-const roomName = document.querySelector(".rooms .currRoom span")
+// const roomName = document.querySelector(".rooms .currRoom span")
+const roomName = document.querySelector(".currRoom span")
+const roomNameBorder = document.querySelector(".currRoom")
 
-const roomNameColors = ["rgb(253, 33, 33)", "lightgreen", "lightblue"]
+const roomNameColors = ["yellow", "lightgreen", "lightsteelblue"]
 
 allRooms.forEach((e, idx)=>{
   const room = e.textContent
   roomName.style.color = roomNameColors[0]
+  roomNameBorder.style.borderColor = roomNameColors[0]
   e.style.color = roomNameColors[idx]
   e.addEventListener("click", ()=>{
     if(currRoom !== room) {
@@ -22,6 +25,7 @@ allRooms.forEach((e, idx)=>{
       currRoom = room
       roomName.textContent = currRoom
       roomName.style.color = roomNameColors[idx]
+      roomNameBorder.style.borderColor= roomNameColors[idx]
       socket.emit("join-room", currRoom)
     }
   })
