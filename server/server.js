@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
+  socket.join('General')
   socket.on('disconnect', ()=>{
     userCount--
   })

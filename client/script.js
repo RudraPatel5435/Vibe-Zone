@@ -4,17 +4,24 @@ var socket = io('http://localhost:3000')
 const messages = document.getElementById("message-container")
 const form = document.getElementById('form')
 const messageInput = document.getElementById('message-input')
-let currRoom = ''
+let currRoom = 'General'
 const allRooms = document.querySelectorAll(".rooms h1")
+const roomName = document.querySelector(".rooms .currRoom span")
 
-allRooms.forEach((e)=>{
+const roomNameColors = ["rgb(253, 33, 33)", "lightgreen", "lightblue"]
+
+allRooms.forEach((e, idx)=>{
   const room = e.textContent
+  roomName.style.color = roomNameColors[0]
+  e.style.color = roomNameColors[idx]
   e.addEventListener("click", ()=>{
     if(currRoom !== room) {
       if(currRoom){
         socket.emit('leave-room', currRoom)
       }
       currRoom = room
+      roomName.textContent = currRoom
+      roomName.style.color = roomNameColors[idx]
       socket.emit("join-room", currRoom)
     }
   })
@@ -40,5 +47,5 @@ socket.on("receive-message", msg => {
 })
 
 socket.on('user-count', userCount => {
-  console.log(userCount)
+  document.querySelector(".activeUsers span").textContent = userCount 
 })

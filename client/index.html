@@ -10,18 +10,32 @@
 
 <body>
   <div class="rooms">
-    <h1>general</h1>
-    <h1>hardware</h1>
-    <h1>software</h1>
-  </div>
-  <ul id="message-container"></ul>
-  <form id="form" autocomplete="off">
-    <div class="message">
-      <label for="message-input">Message</label>
-      <input type="text" id="message-input">
-      <button type="submit" id="send-button">Send</button>
+    <div class="nickname">
+      Your Nickname:<br><input type="text" id="nickname">
     </div>
-  </form>
+    <div class="currRoom">Current Room:<br><span>General</span></div>
+    <div class="roomOptions">
+      <h1>General</h1>
+      <h1>WebDev</h1>
+      <h1>DSA</h1>
+    </div>
+    <div class="activeUsers">
+      Active Users: <span></span>
+    </div>
+  </div>
+
+
+  <main>
+    <ul id="message-container"></ul>
+    <form id="form" autocomplete="off">
+      <div class="message">
+        <label for="message-input">Message</label>
+        <input type="text" id="message-input">
+        <button type="submit" id="send-button">Send</button>
+      </div>
+    </form>
+  </main>
+
 
   <script type="module" src="./script.js"></script>
 </body>
