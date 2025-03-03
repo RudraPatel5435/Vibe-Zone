@@ -58,21 +58,37 @@ main {
 #message-container {
   height: 600px;
   width: 100%;
-  border: 1px solid white;
+  background-color: rgb(71 85 105);
+  color: white;
+  border: 5px solid white;
+  border: 0 5px 5px 5px; 
+  border-top: 0;
   list-style: none;
   overflow-y: auto;
+  flex-wrap: wrap;
+  border-radius: 0 0 10px 10px;
 }
 
-#message-container li:nth-child(odd) {
-  background-color: lightblue;
-  color: black;
-  padding: 5px;
+main h1 {
+  font-size: 40px;
+  color: lightskyblue;
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  border: 5px solid lightskyblue ;
+  border-radius: 10px 10px  0 0;
 }
 
-#message-container li:nth-child(even) {
-  background-color: lightgray;
-  color: black;
-  padding: 5px;
+#message-container li {
+  padding: 10px
+}
+
+#message-container li  .sender{
+  font-size: 20px;
+}
+
+#message-container li  .sentMessage{
+  font-size: 22px;
 }
 
 #message-input {
