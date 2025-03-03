@@ -32,11 +32,11 @@ io.on('connection', (socket) => {
   socket.on('leave-room', room =>{
     socket.leave(room)
   })
-  socket.on('send-message', (message, room)=>{
+  socket.on('send-message', (message, room, senderName)=>{
     if(room===""){
-      socket.broadcast.emit("receive-message", message)
+      socket.broadcast.emit("receive-message", message, senderName)
     } else {
-      socket.to(room).emit("receive-message", message)
+      socket.to(room).emit("receive-message", message, senderName)
     }
   })
 })

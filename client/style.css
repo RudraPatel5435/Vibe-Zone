@@ -34,6 +34,9 @@ body {
   padding: 20px; 
   border-radius: 10px;
 }
+.rooms .nickname{
+  color: lightskyblue
+}
 .rooms .nickname input {
   font-size: 20px;
   font-weight: 700;
@@ -50,6 +53,7 @@ body {
 }
 
 main {
+  width: 100%;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -60,12 +64,13 @@ main {
   width: 100%;
   background-color: rgb(71 85 105);
   color: white;
-  border: 5px solid white;
-  border: 0 5px 5px 5px; 
+  border-width: 0 5px 5px 5px; 
   border-top: 0;
   list-style: none;
   overflow-y: auto;
-  flex-wrap: wrap;
+  text-wrap: wrap;
+  border-color: white;
+  border-style: solid;
   border-radius: 0 0 10px 10px;
 }
 
@@ -84,11 +89,13 @@ main {
 }
 
 #message-container li  .sender{
-  font-size: 20px;
+  margin-bottom: 2px;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 #message-container li  .sentMessage{
-  font-size: 22px;
+  font-size: 20px;
 }
 
 #message-input {

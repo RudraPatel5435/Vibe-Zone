@@ -6,7 +6,6 @@ const form = document.getElementById('form')
 const messageInput = document.getElementById('message-input')
 let currRoom = 'General'
 const allRooms = document.querySelectorAll(".rooms h1")
-// const roomName = document.querySelector(".rooms .currRoom span")
 const roomName = document.querySelector(".currRoom span")
 const roomNameBorder = document.querySelector(".currRoom")
 
@@ -31,23 +30,33 @@ allRooms.forEach((e, idx)=>{
   })
 })
 
-function displayMessage(message){
+function displayMessage(message, senderName){
   const li = document.createElement("li")
-  li.textContent = message
+  const sender = document.createElement("div")
+  sender.classList.add("sender")
+  sender.textContent = senderName
+  const sentMessage = document.createElement("div")
+  sentMessage.classList.add("sentMessage")
+  sentMessage.textContent = message
+  const hr= document.createElement("hr")
+  li.append(sender)
+  li.append(sentMessage)
   messages.append(li)
+  messages.append(hr)
 }
 
 form.addEventListener('submit', function (e) {
   e.preventDefault()
   let message = messageInput.value
+  let senderName = document.querySelector("#nickname").value
   if (message==="") return
-    displayMessage(message)
-    socket.emit('send-message', message, currRoom)
+    displayMessage(message, senderName)
+    socket.emit('send-message', message, currRoom, senderName)
   messageInput.value = ""
 })
 
-socket.on("receive-message", msg => {
-  displayMessage(msg)
+socket.on("receive-message", (msg, senderName) => {
+  displayMessage(msg, senderName)
 })
 
 socket.on('user-count', userCount => {
