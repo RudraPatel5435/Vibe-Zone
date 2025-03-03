@@ -11,26 +11,26 @@ const roomNameBorder = document.querySelector(".currRoom")
 
 const roomNameColors = ["yellow", "lightgreen", "lightsteelblue"]
 
-allRooms.forEach((e, idx)=>{
+allRooms.forEach((e, idx) => {
   const room = e.textContent
   roomName.style.color = roomNameColors[0]
   roomNameBorder.style.borderColor = roomNameColors[0]
   e.style.color = roomNameColors[idx]
-  e.addEventListener("click", ()=>{
-    if(currRoom !== room) {
-      if(currRoom){
+  e.addEventListener("click", () => {
+    if (currRoom !== room) {
+      if (currRoom) {
         socket.emit('leave-room', currRoom)
       }
       currRoom = room
       roomName.textContent = currRoom
       roomName.style.color = roomNameColors[idx]
-      roomNameBorder.style.borderColor= roomNameColors[idx]
+      roomNameBorder.style.borderColor = roomNameColors[idx]
       socket.emit("join-room", currRoom)
     }
   })
 })
 
-function displayMessage(message, senderName){
+function displayMessage(message, senderName) {
   const li = document.createElement("li")
   const sender = document.createElement("div")
   sender.classList.add("sender")
@@ -38,7 +38,7 @@ function displayMessage(message, senderName){
   const sentMessage = document.createElement("div")
   sentMessage.classList.add("sentMessage")
   sentMessage.textContent = message
-  const hr= document.createElement("hr")
+  const hr = document.createElement("hr")
   li.append(sender)
   li.append(sentMessage)
   messages.append(li)
@@ -47,18 +47,35 @@ function displayMessage(message, senderName){
 
 form.addEventListener('submit', function (e) {
   e.preventDefault()
-  let message = messageInput.value
+
   let senderName = document.querySelector("#nickname").value
-  if (message==="") return
-    displayMessage(message, senderName)
-    socket.emit('send-message', message, currRoom, senderName)
-  messageInput.value = ""
+  const errors = document.querySelector(".error")
+  if (senderName.trim()) {
+    if (senderName.length > 47) {
+      errors.style.display = "block"
+      errors.textContent = "Max characters in nickname is 47."
+    } else if (senderName.split(" ").length > 1) {
+      errors.style.display = "block"
+      errors.textContent = "Nickname should not contain any spaces."
+    } else {
+      errors.style.display = "none"
+      let message = messageInput.value
+      if (message === "") return
+      displayMessage(message, senderName)
+      socket.emit('send-message', message, currRoom, senderName)
+      messageInput.value = ""
+    }
+  } else {
+    errors.style.display = "block"
+    errors.textContent = "Enter a nickname."
+  }
 })
+
 
 socket.on("receive-message", (msg, senderName) => {
   displayMessage(msg, senderName)
 })
 
 socket.on('user-count', userCount => {
-  document.querySelector(".activeUsers span").textContent = userCount 
+  document.querySelector(".activeUsers span").textContent = userCount
 })
