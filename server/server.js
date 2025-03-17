@@ -23,6 +23,7 @@ io.on('connection', (socket) => {
   socket.join('General')
   socket.on('disconnect', ()=>{
     userCount--
+    io.emit("user-count", userCount)
   })
   userCount++
   io.emit("user-count", userCount)
