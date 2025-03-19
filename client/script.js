@@ -28,6 +28,7 @@ allRooms.forEach((e, idx) => {
     });
 });
 
+//"use strict"
 function displayMessage(message, senderName) {
     const li = document.createElement("li");
     const sender = document.createElement("div");
@@ -41,6 +42,7 @@ function displayMessage(message, senderName) {
     li.append(sentMessage);
     messages.append(li);
     messages.append(hr);
+    messages.scrollTop = messages.scrollHeight;
 }
 
 form.addEventListener("submit", function (e) {
