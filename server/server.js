@@ -1,47 +1,63 @@
-const express = require('express')
-const path = require('path')
-const cors = require('cors')
-const app = express()
-const http = require('http')
-const server = http.createServer(app)
-const { Server } = require('socket.io')
+const express = require("express");
+const path = require("path");
+const cors = require("cors");
+const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
 const io = new Server(server, {
-  cors: {
-    origin: "*"
-  }
-})
+    cors: {
+        origin: "*",
+    },
+});
 
-let userCount = 0
+let userCount = 0;
 
-app.use(express.static(path.join(__dirname, "../client")))
+let generalMessages = [];
+let dsaMessages = [];
+let webdevMessages = [];
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'))
-})
+app.use(express.static(path.join(__dirname, "../client")));
 
-io.on('connection', (socket) => {
-  socket.join('General')
-  socket.on('disconnect', ()=>{
-    userCount--
-    io.emit("user-count", userCount)
-  })
-  userCount++
-  io.emit("user-count", userCount)
-  socket.on('join-room', room =>{
-    socket.join(room)
-  })
-  socket.on('leave-room', room =>{
-    socket.leave(room)
-  })
-  socket.on('send-message', (message, room, senderName)=>{
-    if(room===""){
-      socket.broadcast.emit("receive-message", message, senderName)
-    } else {
-      socket.to(room).emit("receive-message", message, senderName)
-    }
-  })
-})
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/index.html"));
+});
+
+io.on("connection", (socket) => {
+    socket.on("disconnect", () => {
+        userCount--;
+        io.emit("user-count", userCount);
+    });
+    io.emit("receive-message", generalMessages, dsaMessages, webdevMessages);
+    io.emit("user-count", userCount);
+    userCount++;
+    io.emit("user-count", userCount);
+    socket.on('change-room', ()=>{
+        io.emit("receive-message", generalMessages, dsaMessages, webdevMessages);
+    })
+    socket.on("send-message", (message, room, senderName) => {
+        if (room == "General") {
+            generalMessages.push({
+                nickname: senderName,
+                msg: message,
+            });
+        }
+        if (room == "DSA") {
+            dsaMessages.push({
+                nickname: senderName,
+                msg: message,
+            });
+        }
+        if (room === "WebDev") {
+            webdevMessages.push({
+                nickname: senderName,
+                msg: message,
+            });
+        }
+        io.emit("receive-message", generalMessages, dsaMessages, webdevMessages);
+    });
+});
 
 server.listen(3000, () => {
-  console.log("listening on *:3000")
-})
+    console.log("listening on *:3000");
+});
