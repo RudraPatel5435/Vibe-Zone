@@ -11,6 +11,10 @@ const roomNameBorder = document.querySelector(".currRoom");
 let roomMessages = [];
 
 const roomNameColors = ["yellow", "lightgreen", "lightsteelblue"];
+const randomBrightColors = ["tomato", "yellow", "lightgreen", 'lightsteelblue', 'cyan', "indigo", "slateblue", "lightblue", 'coral', 'lavender', 'lime', 'lightseagreen']
+const nicknameColor = randomBrightColors[Math.floor(Math.random()*(randomBrightColors.length - 1))]
+console.log(nicknameColor)
+
 allRooms.forEach((e, idx) => {
     const room = e.textContent;
     roomName.style.color = roomNameColors[0];
@@ -28,12 +32,12 @@ allRooms.forEach((e, idx) => {
     });
 });
 
-//"use strict"
-function displayMessage(message, senderName) {
+function displayMessage(message, senderName, nickColor) {
     const li = document.createElement("li");
     const sender = document.createElement("div");
     sender.classList.add("sender");
     sender.textContent = senderName;
+    sender.style.color=nickColor
     const sentMessage = document.createElement("div");
     sentMessage.classList.add("sentMessage");
     sentMessage.textContent = message;
@@ -61,7 +65,7 @@ form.addEventListener("submit", function (e) {
             errors.style.display = "none";
             let message = messageInput.value;
             if (message === "") return;
-            socket.emit("send-message", message, currRoom, senderName);
+            socket.emit("send-message", message, currRoom, senderName, nicknameColor);
             messageInput.value = "";
         }
     } else {
@@ -81,7 +85,7 @@ socket.on("receive-message", (generalMessages, dsaMessages, webdevMessages) => {
         messages.innerHTML = "";
     }
     roomMessages.forEach((e) => {
-        displayMessage(e.msg, e.nickname);
+        displayMessage(e.msg, e.nickname, e.color);
     });
 });
 

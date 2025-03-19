@@ -35,23 +35,26 @@ io.on("connection", (socket) => {
     socket.on('change-room', ()=>{
         io.emit("receive-message", generalMessages, dsaMessages, webdevMessages);
     })
-    socket.on("send-message", (message, room, senderName) => {
+    socket.on("send-message", (message, room, senderName, nicknameColor) => {
         if (room == "General") {
             generalMessages.push({
                 nickname: senderName,
                 msg: message,
+                color: nicknameColor
             });
         }
         if (room == "DSA") {
             dsaMessages.push({
                 nickname: senderName,
                 msg: message,
+                color: nicknameColor
             });
         }
         if (room === "WebDev") {
             webdevMessages.push({
                 nickname: senderName,
                 msg: message,
+                color: nicknameColor
             });
         }
         io.emit("receive-message", generalMessages, dsaMessages, webdevMessages);
