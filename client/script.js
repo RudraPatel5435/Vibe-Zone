@@ -10,10 +10,9 @@ const roomName = document.querySelector(".currRoom span");
 const roomNameBorder = document.querySelector(".currRoom");
 let roomMessages = [];
 
-const roomNameColors = ["yellow", "lightgreen", "lightsteelblue"];
+const roomNameColors = ["yellow", "lightgreen", "lightblue"];
 const randomBrightColors = ["tomato", "yellow", "lightgreen", 'lightsteelblue', 'cyan', "indigo", "slateblue", "lightblue", 'coral', 'lavender', 'lime', 'lightseagreen']
 const nicknameColor = randomBrightColors[Math.floor(Math.random()*(randomBrightColors.length - 1))]
-console.log(nicknameColor)
 
 allRooms.forEach((e, idx) => {
     const room = e.textContent;
@@ -26,6 +25,8 @@ allRooms.forEach((e, idx) => {
             roomName.textContent = currRoom;
             roomName.style.color = roomNameColors[idx];
             roomNameBorder.style.borderColor = roomNameColors[idx];
+            document.querySelector(".message").style.borderColor = roomNameColors[idx]
+            document.querySelector("#send-button").style.borderColor = roomNameColors[idx]
             messages.innerHTML = ""
             socket.emit('change-room')
         }
