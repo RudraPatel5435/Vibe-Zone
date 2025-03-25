@@ -1,5 +1,5 @@
 import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
-var socket = io("http://localhost:3000");
+var socket = io("https://vibe-zone.onrender.com");
 
 const messages = document.getElementById("message-container");
 const form = document.getElementById("form");
